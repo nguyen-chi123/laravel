@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Products</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{URL::asset('/css/product.css')}}">
-    <script src="{{URL::asset('/js/jquery-3.6.0.js')}}"></script>
-</head>
-<body>
+@extends('products.layouts.app')
+@section('title')
 <div class="container">
-    <div class="header">
-        <ul class="nav navbar-nav">
-            <li><a href="{{ URL::to('product') }}">Sản phẩm</a></li>
-            <li><a href="{{ URL::to('product/create') }}">Thêm mới</a></li>
-        </ul>
-    </div>
-
+    @section('header')
+        @parent
+    @endsection
+    @section('content')
     <h2>Thêm mới</h2> 
-
-<!-- will be used to show any messages -->
-<!-- @if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif -->
     <form action="{{ url('product') }}" method="POST" role="form" enctype="multipart/form-data">
     {{ csrf_field()}}
     <div class="form-row">
@@ -74,9 +59,7 @@
         <div style="text-align: center;" class="d-block"><button type="submit" class="btn btn-success" style="background-color: #157d3f; width: 150px; ">Lưu lại</button></div>
     </div>
     </form>
-
+    @endsection
 </div>
-
+<script src="{{URL::asset('/js/jquery-3.6.0.js')}}"></script>
 <script src="{{URL::asset('/js/upimg.js')}}"></script>
-</body>
-</html>

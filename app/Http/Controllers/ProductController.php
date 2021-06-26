@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\File;
 class ProductController extends Controller
 {
     /**
@@ -98,8 +98,24 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        $product->update($request->all());
-    
+        
+        $product->name = $request->get('name');
+        $product->description = $request->get('description');
+        $product->unit_cost = $request->get('unit_cost');
+        $product->quantity = $request->get('quantity');
+        $product->category = $request->get('category');
+        $product->unit = $request->get('unit');
+
+        $image = $request->file('img_path');
+        $image_name = $image->getClientOriginalName();
+        $image->move(public_path('/img'), $image_name);
+        if($product->img_path != $image_name){
+            $im = public_path('/img//'.$product->img_path);
+            unlink($im);
+        }
+        $product->img_path = $image_name;
+
+        $product->save();
         Session::flash('message', 'Successfully updated product!');
         return Redirect::to('product');
     }
@@ -113,10 +129,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+        $image_path = public_path('/img//'.$product->img_path);
+        unlink($image_path);
         $product->delete();
-
-        // redirect
-        Session::flash('message', 'Successfully deleted the shark!');
         return Redirect::to('product');
     }
 }
