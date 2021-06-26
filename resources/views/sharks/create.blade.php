@@ -17,7 +17,7 @@
     </ul>
 </nav>
 
-<h1>Create a shark</h1>
+<h1>Create a shark</h1> 
 
 <!-- if there are creation errors, they will show here -->
 {{ Html::ul($errors->all()) }}
